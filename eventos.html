@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Añadir Evento</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="CSS/eventos.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .form-section {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .form-section h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #343a40;
+    }
+    
+    #event-form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    #event-form label {
+      font-weight: 500;
+      color: #495057;
+    }
+    
+    #event-form input,
+    #event-form textarea {
+      padding: 10px;
+      border: 1px solid #ced4da;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    
+    #event-form textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+    
+    #event-form button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    #event-form button:hover {
+      background-color: #0069d9;
+    }
+  </style>
+</head>
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand me-auto" href="#">
+          <img src="img/logooo.png" alt="" width="220" height="60" style="padding-bottom: 10px; padding-top: 10px;">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title">Menú</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+          </div>
+          <div class="offcanvas-body">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" href="DashboardC.html">Inicio</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="ChatC.html">Chats</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="calendario2.html">Calendario</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="actividades.html">Actividades</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <a class="nav-link" href="#">
+          <div style="padding-left: 7px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.6875" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="form-section">
+      <h2>Añadir eventos de la Comisión</h2>
+
+      <form id="event-form">
+        <label for="nombre">Nombre del Evento:</label>
+        <input type="text" id="nombre" name="nombre" required />
+
+        <label for="fecha">Fecha del Evento:</label>
+        <input type="date" id="fecha" name="fecha" required />
+
+        <label for="descripcion">Descripción del Evento:</label>
+        <textarea id="descripcion" name="descripcion" rows="4" required></textarea>
+
+        <button type="submit">Agregar evento</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>Creado por los Estudiantes de Segundo año de Desarrollo de Software</p>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const eventForm = document.getElementById('event-form');
+      
+      eventForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Obtener valores del formulario
+        const nombre = document.getElementById('nombre').value;
+        const fecha = document.getElementById('fecha').value;
+        const descripcion = document.getElementById('descripcion').value;
+        
+        // Crear objeto del evento
+        const nuevoEvento = {
+          nombre: nombre,
+          fecha: new Date(fecha).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' }),
+          fechaCompleta: fecha,
+          descripcion: descripcion
+        };
+        
+        // Obtener eventos existentes o inicializar array
+        let eventos = JSON.parse(localStorage.getItem('eventos')) || [];
+        
+        // Agregar nuevo evento
+        eventos.push(nuevoEvento);
+        
+        // Guardar en localStorage
+        localStorage.setItem('eventos', JSON.stringify(eventos));
+        
+        // Limpiar formulario
+        eventForm.reset();
+        
+        // Mostrar mensaje de éxito
+        alert('Evento agregado correctamente. Será visible en la sección de Actividades.');
+        
+        // Redirigir a actividades.html (opcional)
+        // window.location.href = 'actividades.html';
+      });
+    });
+  </script>
+</body>
+</html>
